@@ -30,9 +30,18 @@ Trakt stays the core sync service.
 ### 2. Remove anime features (from Prism 4.0.1)
 - Remove the Discover Anime home menu entry in resources/lib/gui/homeMenu.py
 - Remove anime routes in resources/lib/modules/router.py
-- resources/lib/gui/animeMenus.py may remain as dead code (minimizes future merge friction)
-- Do not touch language files or metadataHandler/getSources for now
-- Verify: Kodi home menu shows no anime entries, no ImportError in log
+- Delete resources/lib/gui/animeMenus.py, the anime home menu icon
+  (resources/images/icons/anime.png) and language strings 30658-30717 in all locales.
+  Decision: remove the feature completely instead of leaving dead code. Rationale:
+  no upstream we would cherry-pick from contains the anime code, so the merge
+  friction argument does not apply, and mixed upstream commits can be cherry-picked
+  partially anyway.
+- Keep the metadataHandler genre label (string 30494), the getSources isanime
+  scraper hint and resources/images/genres/anime.png: playback and genre plumbing,
+  not the feature
+- Verify: py_compile on touched files; repo-wide case-insensitive grep for anime
+  returns only the genre label and scraper hint (changelog history excepted);
+  Kodi home menu shows no anime entries, no ImportError in log
 
 ### 3. Trakt API fix (changes enforced by Trakt on June 30, 2026: forced pagination + new extended semantics)
 File: resources/lib/database/trakt_sync/activities.py
