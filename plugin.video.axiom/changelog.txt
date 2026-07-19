@@ -1,3 +1,9 @@
+Changelog 4.1.0
+[FEATURE] Renamed addon to Axiom (plugin.video.axiom, context.axiom) - standalone continuation of Seren, based on Prism 4.0.1
+[FEATURE] Removed the anime feature completely (home menu entry, routes, menus, strings)
+[BUG] Fixed Trakt watched sync for the API changes enforced on June 30, 2026 - watched endpoints are now paginated, shows use extended=progress
+[BUG] Watched show and movie sync no longer truncates libraries above 100 items
+
 Changelog 4.0.1
 [FEATURE] Added TorBox debrid service support - full integration including cache checking, source resolving, and cloud scraping
 [FEATURE] TorBox My Files browser with support for Torrents, Usenet, and Web Downloads

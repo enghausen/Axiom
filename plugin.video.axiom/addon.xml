@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.axiom" version="4.0.1" name="Axiom" provider-name="enghausen">
+<addon id="plugin.video.axiom" version="4.1.0" name="Axiom" provider-name="enghausen">
     <requires>
         <import addon="xbmc.addon" version="17.9.910" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -63,6 +63,12 @@
             <screenshot>resources/screenshots/screenshot-04.jpg</screenshot>
         </assets>
         <news>
+            Changelog 4.1.0
+            [FEATURE] Renamed addon to Axiom (plugin.video.axiom, context.axiom) - standalone continuation of Seren, based on Prism 4.0.1
+            [FEATURE] Removed the anime feature completely (home menu entry, routes, menus, strings)
+            [BUG] Fixed Trakt watched sync for the API changes enforced on June 30, 2026 - watched endpoints are now paginated, shows use extended=progress
+            [BUG] Watched show and movie sync no longer truncates libraries above 100 items
+
             Changelog 4.0.1
             [FEATURE] Added TorBox debrid service support - full integration including cache checking, source resolving, and cloud scraping
             [FEATURE] TorBox My Files browser with support for Torrents, Usenet, and Web Downloads
