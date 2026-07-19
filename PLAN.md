@@ -87,6 +87,16 @@ try extended="full,progress" (inb4after's variant) instead of "progress".
 - context.axiom/addon.xml: corresponding bump
 - changelog.txt: new entry describing rename, anime removal and Trakt fix
 
+### 6. Complete internal rename (DEFERRED until after Phase A testing)
+- Rename seren.py -> axiom.py including the library= reference in addon.xml
+- Rename serenMonitor.py -> axiomMonitor.py including all imports
+- Rename the image assets (ico-seren-3.png, fanart-seren-3.jpg, logo-seren-3.png,
+  poster-seren-3.png) in both addons including the addon.xml asset references
+- Rename internal symbols (SerenPlayer, SerenMonitor, SEREN_ADDON_ID and similar)
+  and the Seren mentions in skin XML comments
+- Deliberately deferred so rename risk is not mixed into the Trakt verification
+  of Phase A. Execute only after all Phase A checks pass.
+
 ## Verification
 
 ### Phase A: direct zip install (no repository needed)

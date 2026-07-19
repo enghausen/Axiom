@@ -22,7 +22,12 @@ Task plan and full context: @PLAN.md
   one request returns the full history.
 - Keep LICENSE (GPL-3.0) and existing copyright notices untouched.
 - The addon id is `plugin.video.axiom`. The string `plugin.video.seren` must not
-  appear anywhere outside .git and changelog history.
+  appear anywhere outside .git, changelog history, and the project docs CLAUDE.md
+  and PLAN.md (which reference upstream repo names by necessity).
+- Internal seren-named files and symbols (seren.py, serenMonitor.py, the
+  ico/fanart/logo/poster-seren-3 image assets, class names such as SerenPlayer)
+  keep their names until plan step 6, which is deliberately deferred until after
+  Phase A testing. Do not rename them earlier.
 - No en dashes or em dashes in any documentation or commit messages.
 
 ## Workflow
@@ -30,6 +35,6 @@ Task plan and full context: @PLAN.md
 - One commit per plan step. Show the full diff and wait for approval before committing.
 - Commit messages in English, imperative mood, matching existing history style.
 - After any rename or id change, verify with:
-  `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git`
+  `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git --exclude=CLAUDE.md --exclude=PLAN.md`
 - Bump `version=` in both addon.xml files together and add a changelog.txt entry
   for every release.
