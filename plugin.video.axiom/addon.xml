@@ -16,8 +16,8 @@
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
         <reuselanguageinvoker>false</reuselanguageinvoker>
-        <summary lang="en">Seren - Modular Multi-source Addon</summary>
-        <description lang="en">Seren is a modular provider based, cloud service streaming software that is tightly interwoven with Trakt. Seren provides the freedom to view media from a single menu system from service providers of the users choosing. Please Note: This addon requires the use of a compatible cloud service.
+        <summary lang="en">Axiom - Modular Multi-source Addon</summary>
+        <description lang="en">Axiom is a modular provider based, cloud service streaming software that is tightly interwoven with Trakt. Axiom provides the freedom to view media from a single menu system from service providers of the users choosing. Please Note: This addon requires the use of a compatible cloud service.
         </description>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
@@ -26,7 +26,7 @@
         <source>https://github.com/enghausen/Axiom</source>
         <disclaimer lang="en">
             Last updated: December 6, 2024.
-            The information contained within the Seren software (the "Service") is for general information purposes
+            The information contained within the Axiom software (the "Service") is for general information purposes
             only.
             The author assumes no responsibility for errors, omissions in the contents on the Service, nor does it
             assume responsibility for any material provided by any external services.
@@ -47,7 +47,7 @@
             at any time without prior notice.
             The author of this software does not warrant that the software is free of viruses or other harmful
             components.
-            Seren may contain links to external websites that are not provided or maintained by or in any way affiliated
+            Axiom may contain links to external websites that are not provided or maintained by or in any way affiliated
             with the author.
             Please note that the author does not guarantee the accuracy, relevance, timeliness, or completeness of any
             information on these external websites.

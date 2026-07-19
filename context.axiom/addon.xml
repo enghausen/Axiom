@@ -50,10 +50,10 @@
 	</extension>
 	<extension point="xbmc.service" library="service.py" />
 	<extension point="xbmc.addon.metadata">
-		<summary lang="en">Seren - Global Context Menu Items</summary>
-		<summary lang="nl">Seren - Algemene contextmenu-items</summary>
-		<description lang="en">Adds Context Menu items for Seren menu items throughout Kodi</description>
-		<description lang="nl">Voegt contextmenu-items toe voor Seren-menu-items in Kodi</description>
+		<summary lang="en">Axiom - Global Context Menu Items</summary>
+		<summary lang="nl">Axiom - Algemene contextmenu-items</summary>
+		<description lang="en">Adds Context Menu items for Axiom menu items throughout Kodi</description>
+		<description lang="nl">Voegt contextmenu-items toe voor Axiom-menu-items in Kodi</description>
 		<platform>all</platform>
 		<license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
 		<forum></forum>
