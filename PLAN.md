@@ -23,7 +23,7 @@ Trakt stays the core sync service.
 - context.axiom: all internal plugin://plugin.video.seren/ calls -> plugin.video.axiom
 - Dependency in plugin.video.axiom/addon.xml: context.seren -> context.axiom
 - Top-level addon.xml (pointer file for the repo generator): update path
-- Verify: `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git` returns 0 hits
+- Verify: `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git --exclude=CLAUDE.md --exclude=PLAN.md` returns 0 hits
   (changelog.txt history entries excepted)
 - No other changes in this commit
 
@@ -149,6 +149,24 @@ handling), one remaining resumetime/setResumePoint deprecation warning.
 5. Verify the update flow: bump the version, regenerate, push, "Check for updates"
    in Kodi, confirm the update is offered and installs
 6. Later: GitHub Action in the Axiom repo that builds and pushes to repository.axiom automatically
+
+## Maintenance backlog (after Phase B, own releases in priority order)
+
+1. Fix hang on Kodi exit: the seren.py long life service invoker does not stop within
+   Kodi's 5 second abort window, Kodi kills it and can freeze. Inherited from upstream.
+   Investigate the service's abort/monitor signal handling for a real fix rather than
+   the known skin-level workaround.
+2. Migrate the one remaining ListItem.setProperty("resumetime") call to
+   InfoTagVideo.setResumePoint (last deprecation warning from the InfoTagVideo migration).
+   Small and safe: planned as the 4.1.1 release that also verifies the update channel.
+3. Rename user-facing "Collection" labels to "Library" to match Trakt's product naming.
+   Labels and language strings only. Verify against current Trakt API documentation at
+   execution time: endpoints are still named sync/collection today, a rename is only
+   hinted at for a future API version.
+4. Audit the remaining Trakt sync endpoints (collection, watchlist, lists) for pagination
+   enforcement. Low priority: collection currently returns complete data above 100 items.
+5. Optional cosmetics: studio icon resource packs are absent on fresh installs (harmless
+   GetDirectory errors in the log), document or ignore.
 
 ## Must NOT happen
 
