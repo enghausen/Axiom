@@ -1434,7 +1434,7 @@ class GlobalVariables:
             and int(menu_item.get("resume_time", 0)) > 0
         ):
             params["resume"] = str(menu_item["resume_time"])
-            item.setProperty("resumetime", str(menu_item["resume_time"]))
+            item.getVideoInfoTag().setResumePoint(float(menu_item["resume_time"]))
             # Some episode meta doesn't include duration, so don't explode the whole menu over it.
         duration = info.get("duration")
 

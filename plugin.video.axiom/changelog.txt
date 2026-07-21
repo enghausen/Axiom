@@ -1,3 +1,6 @@
+Changelog 4.1.1
+[BUG] Migrated the last deprecated ListItem resumetime property to InfoTagVideo.setResumePoint - removes the final deprecation warning from the InfoTagVideo migration
+
 Changelog 4.1.0
 [FEATURE] Renamed addon to Axiom (plugin.video.axiom, context.axiom) - standalone continuation of Seren, based on Prism 4.0.1
 [FEATURE] Removed the anime feature completely (home menu entry, routes, menus, strings)
