@@ -9,7 +9,7 @@ Trakt stays the core sync service.
 
 ## Remotes
 
-- origin: git@github.com:enghausen/Axiom.git (master, pinned at cd37c7e at start)
+- origin: git@github.com:enghausen/Axiom.git (branch main, pinned at cd37c7e at start)
 - prism: https://github.com/Goldenfreddy0703/Prism (upstream, NEVER merge past cd37c7e)
 - spongehead: https://github.com/MrSpongeHead/plugin.video.seren (one-line Trakt fix, superseded by step 3)
 - inb4after: https://github.com/inb4after/plugin.video.seren (alternative Trakt fix, superseded by step 3)
@@ -145,7 +145,7 @@ handling), one remaining resumetime/setResumePoint deprecation warning.
    single-homed in the Axiom repo. Output in repo/zips/.
 3. repository.axiom addon.xml with info/checksum/datadir pointing at
    https://enghausen.github.io/repository.axiom/repo/zips/
-4. Run generator, commit, enable GitHub Pages (master, root)
+4. Run generator, commit, enable GitHub Pages (main, root)
 5. Verify the update flow: bump the version, regenerate, push, "Check for updates"
    in Kodi, confirm the update is offered and installs
 6. Later: GitHub Action in the Axiom repo that builds and pushes to repository.axiom automatically
