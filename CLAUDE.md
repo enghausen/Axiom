@@ -36,5 +36,6 @@ Task plan and full context: @PLAN.md
 - Commit messages in English, imperative mood, matching existing history style.
 - After any rename or id change, verify with:
   `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git --exclude=CLAUDE.md --exclude=PLAN.md`
-- Bump `version=` in both addon.xml files together and add a changelog.txt entry
-  for every release.
+- Versions are per addon: bump `version=` only for addons whose content changed in
+  a release, and add a changelog.txt entry for every plugin release. Unchanged addons
+  keep their version (context.axiom stays put when untouched).
