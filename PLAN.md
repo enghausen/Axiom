@@ -163,8 +163,25 @@ handling), one remaining resumetime/setResumePoint deprecation warning.
    Labels and language strings only. Verify against current Trakt API documentation at
    execution time: endpoints are still named sync/collection today, a rename is only
    hinted at for a future API version.
-4. Audit the remaining Trakt sync endpoints (collection, watchlist, lists) for pagination
-   enforcement. Low priority: collection currently returns complete data above 100 items.
+4. Trakt API modernization audit. The API remains v2 (endpoints still named sync/collection,
+   the Library rename is product-level only), but it has gained purpose-built endpoints that
+   postdate Seren's design and deserve a criteria-based evaluation:
+   - Minimal collection endpoints (sync/collection minimal variants): compact format
+     optimized for syncing local state. Most promising candidate: less data per sync,
+     better API citizenship. Evaluate as replacement for the current collection sync calls.
+   - Server-side Up Next endpoints (sync/progress upnext standard and nitro): Seren computes
+     Next Up locally because these did not exist when it was built. They cannot replace the
+     local sync database (which also powers show/season views and watched flags), only the
+     Next Up computation itself. Evaluate for parity (hidden shows, specials, rewatch resets),
+     menu-open latency versus local instant, and API call budget before adopting.
+   - Minimal watched endpoints with explicit specials and season_numbers flags.
+   - Also audit remaining sync endpoints (collection, watchlist, lists) for pagination
+     enforcement. Low priority: collection currently returns complete data above 100 items.
+   Adoption rule: only switch where it reduces API calls, reduces payload, or fixes a
+   correctness bug. The existing last_activities gating stays regardless.
+   Documentation: https://docs.trakt.tv is the current official reference (the old apiary
+   docs are deprecated). Machine-readable index for AI tooling: https://docs.trakt.tv/llms.txt
+   API change announcements: https://github.com/trakt/trakt-api/discussions
 5. Optional cosmetics: studio icon resource packs are absent on fresh installs (harmless
    GetDirectory errors in the log), document or ignore.
 
