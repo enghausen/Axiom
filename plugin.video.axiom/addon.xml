@@ -25,12 +25,18 @@
         <website>https://github.com/enghausen/Axiom</website>
         <source>https://github.com/enghausen/Axiom</source>
         <disclaimer lang="en">
-            Last updated: December 6, 2024.
+            Last updated: July 24, 2026.
+            Axiom does not host, index, provide or distribute any media content. The software ships
+            with no scrapers or sources of any kind; any provider packages are third party software
+            installed separately by the user, and any playback requires external services that the
+            user separately subscribes to and configures. The user alone is responsible for ensuring
+            that their use of such providers and services, and any content accessed through them,
+            complies with applicable law and the rights of content owners in their jurisdiction.
             The information contained within the Axiom software (the "Service") is for general information purposes
             only.
             The author assumes no responsibility for errors, omissions in the contents on the Service, nor does it
             assume responsibility for any material provided by any external services.
-            The use of the Service does not author the user to engage in any kind of illegal, criminal or tortious
+            The use of the Service does not authorize the user to engage in any kind of illegal, criminal or tortious
             activity through the use of the software, including infringement of any third party intellectual property
             rights (including without limitation copyright, trade marks, patent, trade secrets and confidential
             information), fraud, child pornography, trafficking in obscene material, violation of applicable export

@@ -152,13 +152,17 @@ handling), one remaining resumetime/setResumePoint deprecation warning.
 
 ## Maintenance backlog (after Phase B, own releases in priority order)
 
-1. Fix hang on Kodi exit: the seren.py long life service invoker does not stop within
-   Kodi's 5 second abort window, Kodi kills it and can freeze. Inherited from upstream.
-   Investigate the service's abort/monitor signal handling for a real fix rather than
-   the known skin-level workaround.
-2. Migrate the one remaining ListItem.setProperty("resumetime") call to
-   InfoTagVideo.setResumePoint (last deprecation warning from the InfoTagVideo migration).
-   Small and safe: planned as the 4.1.1 release that also verifies the update channel.
+1. FIXED in 4.1.2: hang on Kodi exit. Root cause was two independent classes, both proven
+   with py-spy dumps and eliminated: (a) wait_for_abort/abort_requested constructed a fresh
+   xbmc.Monitor per call, and a Monitor born during shutdown never receives the abort
+   notification, blocking waitForAbort past its timeout in native code Kodi cannot kill;
+   fixed with one persistent lazily created Monitor. (b) ThreadPool executors were only shut
+   down on exception paths and __del__, so idle non-daemon workers (e.g. the four scraper
+   pools) survived reference cycles and blocked interpreter finalization; fixed with explicit
+   executor lifecycle (success-path shutdown, lock-guarded lazy recreation for reused pools,
+   public shutdown() for long-lived owners).
+2. FIXED in 4.1.1: migrated the last deprecated ListItem resumetime property to
+   InfoTagVideo.setResumePoint.
 3. Rename user-facing "Collection" labels to "Library" to match Trakt's product naming.
    Labels and language strings only. Verify against current Trakt API documentation at
    execution time: endpoints are still named sync/collection today, a rename is only
@@ -184,6 +188,13 @@ handling), one remaining resumetime/setResumePoint deprecation warning.
    API change announcements: https://github.com/trakt/trakt-api/discussions
 5. Optional cosmetics: studio icon resource packs are absent on fresh installs (harmless
    GetDirectory errors in the log), document or ignore.
+6. Read-only code audit: survey the codebase for latent bugs of the classes already found
+   (resource churn in loops, threads or loops without abort awareness, network calls without
+   timeouts, joins without timeouts, bare excepts hiding errors), report before changing
+   anything, then fix approved findings one release at a time. Named starting leads from the
+   4.1.2 investigation: the resolver window doModal thread outlives playback instead of dying
+   with the window, and a worker stuck in a hung network call without a timeout can still
+   delay exit (residual explicitly out of scope of the 4.1.2 fix).
 
 ## Must NOT happen
 
