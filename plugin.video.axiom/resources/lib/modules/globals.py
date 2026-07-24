@@ -514,6 +514,8 @@ class GlobalVariables:
 
     SEMVER_REGEX = re.compile(r"^((?:\d+\.){2}\d+)")
 
+    _KODI_MONITOR = None
+
     def __init__(self):
         self.IS_ADDON_FIRSTRUN = None
         self.ADDON = None
@@ -552,6 +554,7 @@ class GlobalVariables:
         self.REQUEST_PARAMS = None
         self.FROM_WIDGET = False
         self.PAGE = 1
+        self._KODI_MONITOR = None
 
     def __del__(self):
         self.deinit()
@@ -563,6 +566,8 @@ class GlobalVariables:
         del self.PLAYLIST
         self.HOME_WINDOW = None
         del self.HOME_WINDOW
+        self._KODI_MONITOR = None
+        del self._KODI_MONITOR
 
     def init_globals(self, argv=None, addon_id=None):
         self.IS_ADDON_FIRSTRUN = self.IS_ADDON_FIRSTRUN is None
@@ -1714,23 +1719,20 @@ class GlobalVariables:
             params["action_args"] = json.dumps(params["action_args"], sort_keys=True)
         return f"{base_url}/?{parse.urlencode(sorted(params.items()))}"
 
-    @staticmethod
-    def abort_requested():
-        monitor = xbmc.Monitor()
-        abort_requested = monitor.abortRequested()
-        del monitor
-        return abort_requested
+    def _get_kodi_monitor(self):
+        # A Monitor constructed while Kodi is shutting down may never receive the
+        # abort notification, leaving waitForAbort blocked past its timeout, so a
+        # single persistent instance is reused for the addon's lifetime.
+        monitor = self._KODI_MONITOR
+        if monitor is None:
+            monitor = self._KODI_MONITOR = xbmc.Monitor()
+        return monitor
 
-    @staticmethod
-    def wait_for_abort(timeout=1.0):
-        monitor = None
-        try:
-            monitor = xbmc.Monitor()
-            abort_requested = monitor.waitForAbort(timeout)
-        finally:
-            del monitor
+    def abort_requested(self):
+        return self._get_kodi_monitor().abortRequested()
 
-        return abort_requested
+    def wait_for_abort(self, timeout=1.0):
+        return self._get_kodi_monitor().waitForAbort(timeout)
 
     @staticmethod
     def reload_profile():

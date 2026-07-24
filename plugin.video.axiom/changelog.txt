@@ -1,3 +1,6 @@
+Changelog 4.1.2
+[BUG] Fixed hang on Kodi exit - the abort helpers now reuse a single persistent xbmc.Monitor instead of constructing a new one on every call, so waitForAbort no longer blocks past its timeout during shutdown and the long life service stops within Kodi's abort window
+
 Changelog 4.1.1
 [BUG] Migrated the last deprecated ListItem resumetime property to InfoTagVideo.setResumePoint - removes the final deprecation warning from the InfoTagVideo migration
 
