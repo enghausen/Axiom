@@ -32,7 +32,13 @@ class ProvidersServiceManager(CustomProviders, ThreadPool, MessageServer):
         g.log('Starting Service Manager Long Life Service')
         for package in self.known_packages:
             self._start_package_services(package)
-        self._service_trigger_loop()
+        try:
+            self._service_trigger_loop()
+        finally:
+            # The trigger loop only exits on abort; wake idle workers so the invoker
+            # can finalize within Kodi's abort window. Running services exit on their
+            # own abort checks.
+            self.shutdown()
 
     def _service_trigger_loop(self):
         while not g.wait_for_abort(0.5):

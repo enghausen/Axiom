@@ -1,4 +1,5 @@
 import concurrent.futures
+import threading
 from functools import reduce
 
 from resources.lib.common import tools
@@ -60,9 +61,30 @@ class ThreadPool:
         self.max_workers = 1 if self.limiter else self.workers
         self.executor = ThreadPoolExecutor(max_workers=self.max_workers)
         self.tasks = []
+        self._executor_lock = threading.Lock()
 
     def __del__(self):
         self.executor.shutdown(wait=False, cancel_futures=True)
+
+    def shutdown(self, wait=False, cancel_futures=True):
+        """
+        Explicitly shuts down the executor so its worker threads exit instead of idling in
+        the work queue. Idle non-daemon workers block interpreter finalization forever, so
+        every pool must be shut down when its owner is done submitting; relying on __del__
+        is not enough because reference cycles can keep the pool alive past invoker exit.
+        """
+        self.executor.shutdown(wait=wait, cancel_futures=cancel_futures)
+
+    def _ensure_executor(self):
+        # wait_completion/map_results shut the executor down once their tasks complete;
+        # pools that are reused afterwards transparently get a fresh executor here. The
+        # lock makes check-and-create atomic, and callers must submit to the returned
+        # reference: a racing replacement would otherwise orphan an executor whose
+        # worker then idles forever, the exact leak this class guards against.
+        with self._executor_lock:
+            if self.executor._shutdown:
+                self.executor = ThreadPoolExecutor(max_workers=self.max_workers)
+            return self.executor
 
     @staticmethod
     def _handle_results(results):
@@ -100,7 +122,7 @@ class ThreadPool:
         :return:
         :rtype:
         """
-        self.tasks.append(self.executor.submit(func, *args, **kwargs))
+        self.tasks.append(self._ensure_executor().submit(func, *args, **kwargs))
 
     def wait_completion(self):
         """
@@ -117,6 +139,7 @@ class ThreadPool:
 
             results = self._handle_results(task.result() for task in self.tasks if task)
             self.tasks.clear()
+            self.executor.shutdown(wait=False, cancel_futures=True)
             return results
         except Exception:
             g.log_stacktrace()
@@ -131,15 +154,18 @@ class ThreadPool:
         :param kwargs_iterable: An iterable of kwargs dicts
         :return: The results
         """
+        executor = self._ensure_executor()
         try:
-            return self._handle_results(
-                self.executor.map(lambda args, kwargs: func(*args, **kwargs), args_iterable, kwargs_iterable)
+            results = self._handle_results(
+                executor.map(lambda args, kwargs: func(*args, **kwargs), args_iterable, kwargs_iterable)
                 if args_iterable and kwargs_iterable
-                else self.executor.map(lambda kwargs: func(**kwargs), kwargs_iterable)
+                else executor.map(lambda kwargs: func(**kwargs), kwargs_iterable)
                 if kwargs_iterable
-                else self.executor.map(lambda args: func(*args), args_iterable)
+                else executor.map(lambda args: func(*args), args_iterable)
             )
         except Exception:
-            self.executor.shutdown(wait=False, cancel_futures=True)
+            executor.shutdown(wait=False, cancel_futures=True)
             g.log_stacktrace()
             raise
+        executor.shutdown(wait=False, cancel_futures=True)
+        return results

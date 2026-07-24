@@ -1,7 +1,6 @@
 import xbmc
 import xbmcgui
 
-from resources.lib.common.thread_pool import ThreadPool
 from resources.lib.gui.windows.base_window import BaseWindow
 from resources.lib.modules.download_manager import Manager
 from resources.lib.modules.globals import g
@@ -12,7 +11,6 @@ class DownloadManager(BaseWindow):
         super().__init__(xml_file, location, item_information=item_information)
         self.manager = Manager()
         self.list_control = None
-        self.thread_pool = ThreadPool()
         self.exit_requested = False
         self.downloads = []
 

@@ -603,3 +603,6 @@ def create_task(source):
         downloader_class = _get_debrid_downloader_class(source)
 
     downloader_class.download()
+    # All downloads are submitted by now; without cancel_futures they run to
+    # completion and the workers exit instead of idling forever.
+    downloader_class.thread_pool.shutdown(wait=False, cancel_futures=False)

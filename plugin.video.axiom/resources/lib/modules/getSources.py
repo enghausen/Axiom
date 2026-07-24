@@ -248,6 +248,10 @@ class Sources:
 
         finally:
             self.window.close()
+            # Scraper pools are never joined; without an explicit shutdown their idle
+            # workers block interpreter finalization and hang the invoker on exit.
+            for pool in (self.torrent_threads, self.hoster_threads, self.adaptive_threads, self.direct_threads):
+                pool.shutdown()
 
     def _handle_pre_scrape_modifiers(self):
         """

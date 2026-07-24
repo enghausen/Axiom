@@ -96,6 +96,9 @@ class _BaseCacheAssist(TorrentAssist):
         if yesno := self.prompt_download_style():
             xbmcgui.Dialog().ok(g.ADDON_NAME, g.get_language_string(30468))
             self.thread_pool.put(self.status_update_loop)
+            # Nothing else is submitted to this pool; without cancel_futures the loop
+            # runs to completion and its worker exits instead of idling forever.
+            self.thread_pool.shutdown(wait=False, cancel_futures=False)
             return {"result": "background", "source": None}
         else:
             try:
