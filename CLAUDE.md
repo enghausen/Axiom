@@ -37,5 +37,10 @@ Task plan and full context: @PLAN.md
 - After any rename or id change, verify with:
   `grep -rn "plugin\.video\.seren\|context\.seren" . --exclude-dir=.git --exclude=CLAUDE.md --exclude=PLAN.md`
 - Versions are per addon: bump `version=` only for addons whose content changed in
-  a release, and add a changelog.txt entry for every plugin release. Unchanged addons
-  keep their version (context.axiom stays put when untouched).
+  a release. Every plugin release updates BOTH changelog.txt AND the `<news>` block in
+  addon.xml with the same entry (Kodi's "what's new" dialog reads `<news>`, not the file).
+  Unchanged addons keep their version (context.axiom stays put when untouched).
+- Commit message convention: single-change releases may use the inherited "Changelog X.Y.Z"
+  style; multi-commit releases use descriptive imperative messages per fix, with the version
+  bump and release metadata in the final commit. Release commits in the repository.axiom
+  repo are always "Release Axiom X.Y.Z".
